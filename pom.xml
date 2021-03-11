@@ -50,6 +50,11 @@
 			<artifactId>spring-context</artifactId>
 			<version>5.2.8.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.196</version>
+		</dependency>
 		
 	</dependencies>
 	<build>
@@ -69,7 +74,7 @@
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-				<version>4.0.3</version> 
+				<version>4.0.3</version>
 			</plugin>
 		</plugins>
 	</build>
