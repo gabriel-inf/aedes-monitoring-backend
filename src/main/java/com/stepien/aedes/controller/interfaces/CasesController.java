@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,11 +17,11 @@ import java.util.Date;
 
 public interface CasesController {
 
-    HttpResponse<Case> addCase(Case newCase);
-    HttpResponse<Case> editCase(Case newCase);
-    HttpResponse<Case> getCase(String caseId);
-    HttpResponse<Collection<Case>> getAllCases();
-    HttpResponse<Collection<Case>> getAllCasesByLocation(String location);
-    HttpResponse<Collection<Case>> getAllCasesByLocationAndPeriod(String location, Date startDate, Date endDate);
+    Case addCase(Case newCase);
+    Case editCase(Case newCase);
+    Case getCase(String caseId);
+    Collection<Case> getAllCases();
+    Collection<Case> getAllCasesByLocation(String location);
+    Collection<Case> getAllCasesByLocationAndPeriod(String location, Date startDate, Date endDate);
 
 }
