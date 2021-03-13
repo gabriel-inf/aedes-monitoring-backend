@@ -5,7 +5,6 @@ import com.stepien.aedes.dtos.LocationPeriodDTO;
 import com.stepien.aedes.model.Identification;
 
 import java.util.Collection;
-import java.util.Date;
 
 public interface IdentificationController {
     void addIdentification(IdentificationDTO newIdentification);
