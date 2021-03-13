@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
@@ -16,6 +17,10 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Case {
     public static final String TABLE_NAME = "case";
+
+    @Id
+    private String id;
+
     private Double lat;
     private Double lgn;
     private Date date;

@@ -6,14 +6,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
 @Entity
+@Data
 @Table (name = Weather.TABLE_NAME)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,21 +25,21 @@ public class Weather {
     public static final String TABLE_NAME = "weather";
 
     @Id
-    String id;
+    public String id;
 
     @Column(nullable = false)
-    Date date;
+    private Date date;
 
     @Column(nullable = false)
-    String locationId;
+    private String locationId;
 
-    Double avergeTemperature;
-    Double avergePressure;
-    Double avergeHumidity;
-    Double maxTemperature;
-    Double maxPressure;
-    Double maxHumidity;
-    Double minTemperature;
-    Double minPressure;
-    Double minHumidity;
+    private Double avergeTemperature;
+    private Double avergePressure;
+    private Double avergeHumidity;
+    private Double maxTemperature;
+    private Double maxPressure;
+    private Double maxHumidity;
+    private Double minTemperature;
+    private Double minPressure;
+    private Double minHumidity;
 }

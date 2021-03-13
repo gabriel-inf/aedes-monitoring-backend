@@ -11,10 +11,5 @@ import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLAS
 @Configuration
 public class ControllersConfig {
 
-    @Bean
-    @Scope(value="request", proxyMode=TARGET_CLASS)
-    public ClassificationService getClassificationService() {
-        return new ClassificationServiceImpl();
-    }
 
 }
