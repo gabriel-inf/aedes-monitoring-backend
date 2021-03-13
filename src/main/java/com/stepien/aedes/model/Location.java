@@ -1,6 +1,9 @@
 package com.stepien.aedes.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -23,4 +26,7 @@ public class Location {
     private String neighborhood;
     @Column(nullable = false)
     private String country;    
+
+    @ElementCollection
+    private List<Polygon> areas;
 }

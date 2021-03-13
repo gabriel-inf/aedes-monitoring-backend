@@ -4,8 +4,6 @@ import com.stepien.aedes.controller.interfaces.ClassifierController;
 import com.stepien.aedes.model.Classification;
 import com.stepien.aedes.model.ClassificationParameters;
 import com.stepien.aedes.service.ClassificationService;
-import com.stepien.aedes.service.impl.ClassificationServiceImpl;
-import com.stepien.aedes.util.OutbreakRisk;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
