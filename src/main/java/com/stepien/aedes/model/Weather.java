@@ -4,7 +4,11 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Id;
 
@@ -25,6 +29,8 @@ public class Weather {
     public static final String TABLE_NAME = "weather";
 
     @Id
+	@GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     public String id;
 
     @Column(nullable = false)

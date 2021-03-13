@@ -4,7 +4,11 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+
 import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +20,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Polygon {
     @Id
+	@GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
 
     @ElementCollection

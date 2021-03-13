@@ -3,8 +3,12 @@ package com.stepien.aedes.model;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +24,8 @@ public class DangerCoordinates {
     public static final String TABLE_NAME = "danger_coordinates";
 
     @Id
+	@GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     public String id;
 
     private Double lat;
