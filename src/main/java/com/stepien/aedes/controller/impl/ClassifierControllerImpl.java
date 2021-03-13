@@ -29,12 +29,16 @@ public class ClassifierControllerImpl implements ClassifierController {
 
     @GetMapping
     public ResponseEntity<Classification> classify(
-            @RequestParam("location") String location, @RequestParam("startDate") String startDateStr,
-            @RequestParam("endDate") String endDateStr) throws ParseException {
+            @RequestParam("location") String location, 
+            @RequestParam("startDate") String startDateStr,
+            @RequestParam("endDate") String endDateStr,
+            @RequestParam("targetDate") String targetDateStr) throws ParseException {
 
         Date startDate = dateFormat.parse(startDateStr);
-        Date endDate = dateFormat.parse(startDateStr);
-        ClassificationParameters parameters = new ClassificationParameters(location, startDate, endDate);
+        Date endDate = dateFormat.parse(endDateStr);
+        Date targetDate = dateFormat.parse(targetDateStr);
+
+        ClassificationParameters parameters = new ClassificationParameters(location, startDate, endDate, targetDate);
         Classification classification = classificationService.classify(parameters);
         return new ResponseEntity<>(classification, HttpStatus.OK);
     }
