@@ -25,6 +25,6 @@ public class Polygon {
     private String id;
 
     @ElementCollection
-    private List<GeoPoint> points;
+    private List<GeoPoint> geoPoints;
 
 }

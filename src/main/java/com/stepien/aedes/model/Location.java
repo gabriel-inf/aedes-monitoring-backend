@@ -34,5 +34,5 @@ public class Location {
     private String country;    
 
     @ElementCollection
-    private List<Polygon> areas;
+    private List<Polygon> polygons;
 }
