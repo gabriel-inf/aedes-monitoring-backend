@@ -20,6 +20,6 @@ public class IdentificationDTO {
     private String id;
     private String locationId;
     private Double lat;
-    private Double lgn;
+    private Double lng;
     private Date time;
 }

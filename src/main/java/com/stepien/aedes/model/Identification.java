@@ -36,14 +36,14 @@ public class Identification {
     private Double lat;
 
     @Column(nullable = false)
-    private Double lgn;
+    private Double lng;
 
     @Column(nullable = false)
     private Date time;
 
     public Identification(IdentificationDTO identificationDTO) {
         this.lat = identificationDTO.getLat();
-        this.lgn = identificationDTO.getLgn();
+        this.lng = identificationDTO.getLng();
         this.locationId = "TBD";
         this.time = new Date();
     }

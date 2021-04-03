@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.stepien.aedes.dtos.ChunkDTO;
 import com.stepien.aedes.model.Chunks;
+import com.stepien.aedes.model.Location;
 import com.stepien.aedes.repository.ChunkRepository;
+import com.stepien.aedes.repository.LocationRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,9 @@ public class GeoControllerImpl {
     
     @Autowired
     private ChunkRepository chunkRepository;
+
+    @Autowired
+    private LocationRepository locationRepository;
 
     @PostMapping (value = "chunks")
     public ChunkDTO addChunk(@RequestBody ChunkDTO chunkDTO) {
@@ -60,6 +65,18 @@ public class GeoControllerImpl {
         }
         return chunksReturn;
     }
+
+    @PostMapping(value = "locations/batch")
+    public List<Location> addLocations(@RequestBody List<Location> locations) {
+        return (List<Location>) locationRepository.saveAll(locations);
+    }
+
+    @GetMapping(value = "locations")
+    public List<Location> getLocations() {
+        return (List<Location>) locationRepository.findAll();
+    }
+
+
 
     private ChunkDTO createChunk(ChunkDTO chunkDTO) {
         Chunks chunkModel = new Chunks(chunkDTO);

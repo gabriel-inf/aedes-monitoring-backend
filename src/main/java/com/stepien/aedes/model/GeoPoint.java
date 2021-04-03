@@ -23,15 +23,15 @@ public class GeoPoint {
 
     public static final String TABLE_NAME = "geo_points";
 
-    public GeoPoint(GeoPointDTO geoPointDTO) {
-        this.lat = geoPointDTO.getLat();
-        this.lgn = geoPointDTO.getLng();
-    }
-
     @Id
 	@GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
     private Double lat;
-    private Double lgn;
+    private Double lng;
+
+    public GeoPoint(GeoPointDTO geoPointDTO) {
+        this.lat = geoPointDTO.getLat();
+        this.lng = geoPointDTO.getLng();
+    }
 }

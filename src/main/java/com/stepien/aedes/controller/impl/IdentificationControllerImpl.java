@@ -48,7 +48,7 @@ public class IdentificationControllerImpl implements IdentificationController {
 
         if (oldIdentification == null) return null; // exit doing nothing
 
-        if (newIdentification.getLgn() != null) oldIdentification.setLgn(newIdentification.getLgn());
+        if (newIdentification.getLng() != null) oldIdentification.setLng(newIdentification.getLng());
         if (newIdentification.getLat() != null) oldIdentification.setLat(newIdentification.getLat());
         if (newIdentification.getLocationId() != null) oldIdentification.setLocationId(newIdentification.getLocationId());
         if (newIdentification.getTime() != null) oldIdentification.setTime(newIdentification.getTime());

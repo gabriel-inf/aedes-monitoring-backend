@@ -14,12 +14,14 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = Location.TABLE_NAME)
 public class Location {
@@ -29,9 +31,12 @@ public class Location {
 	@GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
-    @Column(nullable = false)
+
+    private Integer code;
+
+    @Column(nullable = true)
     private String neighborhood;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String country;    
 
     @OneToMany(cascade = CascadeType.PERSIST)

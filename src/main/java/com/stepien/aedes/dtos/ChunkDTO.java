@@ -17,8 +17,8 @@ public class ChunkDTO {
     private GeoPointDTO topLeft;
     private GeoPointDTO topRight;
     private GeoPointDTO centroid;
-    private Double gridLine;
-    private Double gridColumn;
+    private Integer gridLine;
+    private Integer gridColumn;
     private String id;
     private List<Integer> intersects;
 

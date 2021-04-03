@@ -29,7 +29,7 @@ public class DangerCoordinates {
     public String id;
 
     private Double lat;
-    private Double lgn;
+    private Double lng;
     private Date targetPredictionDate;
     private Date dateOfPrediction;
 }

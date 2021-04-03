@@ -28,7 +28,7 @@ public class Case {
     private String id;
 
     private Double lat;
-    private Double lgn;
+    private Double lng;
     private Date date;
     private String place;
 }

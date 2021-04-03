@@ -15,6 +15,6 @@ public class GeoPointDTO {
 
     public GeoPointDTO(GeoPoint geoPoint) {
         this.lat = geoPoint.getLat();
-        this.lng = geoPoint.getLgn();
+        this.lng = geoPoint.getLng();
     }
 }

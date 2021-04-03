@@ -38,8 +38,8 @@ public class Chunks {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
 
-    private Double gridLine;
-    private Double gridColumn;
+    private Integer gridLine;
+    private Integer gridColumn;
 
     @OneToOne(cascade=CascadeType.PERSIST)
     private GeoPoint centroid;
