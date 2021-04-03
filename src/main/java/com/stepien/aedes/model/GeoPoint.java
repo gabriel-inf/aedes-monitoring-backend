@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.stepien.aedes.dtos.GeoPointDTO;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +22,11 @@ import lombok.NoArgsConstructor;
 public class GeoPoint {
 
     public static final String TABLE_NAME = "geo_points";
+
+    public GeoPoint(GeoPointDTO geoPointDTO) {
+        this.lat = geoPointDTO.getLat();
+        this.lgn = geoPointDTO.getLng();
+    }
 
     @Id
 	@GeneratedValue(generator = "system-uuid")
