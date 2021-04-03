@@ -61,11 +61,6 @@ public class GeoControllerImpl {
         return chunksReturn;
     }
 
-    // @GetMapping(value = "/location")
-    // public Location getExample1() {
-    //     return new Location();
-    // }
-
     private ChunkDTO createChunk(ChunkDTO chunkDTO) {
         Chunks chunkModel = new Chunks(chunkDTO);
         return new ChunkDTO(chunkRepository.save(chunkModel));

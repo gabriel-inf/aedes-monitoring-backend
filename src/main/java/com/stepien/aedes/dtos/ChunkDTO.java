@@ -1,10 +1,11 @@
 package com.stepien.aedes.dtos;
 
+import java.util.List;
+
 import com.stepien.aedes.model.Chunks;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -19,6 +20,7 @@ public class ChunkDTO {
     private Double gridLine;
     private Double gridColumn;
     private String id;
+    private List<Integer> intersects;
 
     public ChunkDTO (Chunks chunkModel) {
         this.centroid = new GeoPointDTO(chunkModel.getCentroid());
@@ -29,5 +31,6 @@ public class ChunkDTO {
         this.gridLine = chunkModel.getGridLine();
         this.gridColumn = chunkModel.getGridColumn();
         this.id = chunkModel.getId();
+        this.intersects = chunkModel.getIntersects();
     }
 }

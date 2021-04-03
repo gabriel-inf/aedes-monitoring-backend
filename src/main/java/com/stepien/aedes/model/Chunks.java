@@ -1,6 +1,10 @@
 package com.stepien.aedes.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -52,6 +56,10 @@ public class Chunks {
     @OneToOne(cascade=CascadeType.PERSIST)
     private GeoPoint bottomRight;
 
+    @ElementCollection
+    @Column(name = "intersection")
+    private List<Integer> intersects;
+
     public Chunks (ChunkDTO chunkDTO) {
         this.centroid = new GeoPoint(chunkDTO.getCentroid());
         this.topLeft = new GeoPoint(chunkDTO.getTopLeft());
@@ -61,6 +69,7 @@ public class Chunks {
         this.gridLine = chunkDTO.getGridLine();
         this.gridColumn = chunkDTO.getGridColumn();
         this.id = chunkDTO.getId();
+        this.intersects = chunkDTO.getIntersects();
     }
 
 }
