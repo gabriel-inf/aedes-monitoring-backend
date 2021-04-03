@@ -35,11 +35,18 @@ public class GeoControllerImpl {
     public List<ChunkDTO> addChunks(@RequestBody List<ChunkDTO> chunk) {
 
         List<ChunkDTO> createdChunks = new ArrayList<>();
+        List<Chunks> chunkModels = new ArrayList<>();
 
         for (ChunkDTO chunkDTO : chunk) {
-            createdChunks.add(createChunk(chunkDTO));
+            chunkModels.add(new Chunks(chunkDTO));
         }
 
+        chunkModels = (List<Chunks>) chunkRepository.saveAll(chunkModels);
+        
+        for (Chunks chunks : chunkModels) {
+            createdChunks.add(new ChunkDTO(chunks));
+        }
+        
         return createdChunks;
     }
 
