@@ -7,7 +7,7 @@ import com.stepien.aedes.model.Identification;
 import java.util.Collection;
 
 public interface IdentificationController {
-    void addIdentification(IdentificationDTO newIdentification);
+    Identification addIdentification(IdentificationDTO newIdentification);
     Identification editIdentification(IdentificationDTO newIdentification);
     Identification getIdentification(String IdentificationId);
     Collection<Identification>getAllIdentifications();

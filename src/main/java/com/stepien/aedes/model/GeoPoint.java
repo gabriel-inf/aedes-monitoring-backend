@@ -30,6 +30,11 @@ public class GeoPoint {
     private Double lat;
     private Double lng;
 
+    public GeoPoint(Double lat, Double lng) {
+        this.lat = lat;
+        this.lng = lng;
+    }
+
     public GeoPoint(GeoPointDTO geoPointDTO) {
         this.lat = geoPointDTO.getLat();
         this.lng = geoPointDTO.getLng();

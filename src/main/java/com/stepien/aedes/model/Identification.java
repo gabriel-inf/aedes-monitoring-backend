@@ -41,6 +41,11 @@ public class Identification {
     @Column(nullable = false)
     private Date time;
 
+    @Column(name = "grid_line")
+    private Integer gridLine;
+    @Column(name = "grid_column")
+    private Integer gridColumn;
+
     public Identification(IdentificationDTO identificationDTO) {
         this.lat = identificationDTO.getLat();
         this.lng = identificationDTO.getLng();
