@@ -1,13 +1,8 @@
 package com.stepien.aedes.service;
 
-import java.util.List;
-
-import com.stepien.aedes.repository.GridRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-
+import com.stepien.aedes.model.GeoPoint;
+import com.stepien.aedes.vo.GridPosition;
 
 public interface LocalizationService {
-    List<Double> latitudesInOrder();
+    GridPosition getGridPosition(GeoPoint geoPoint);
 }
