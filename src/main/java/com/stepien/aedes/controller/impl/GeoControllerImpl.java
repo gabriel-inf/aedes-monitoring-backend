@@ -8,6 +8,7 @@ import com.stepien.aedes.model.Chunks;
 import com.stepien.aedes.model.Location;
 import com.stepien.aedes.repository.ChunkRepository;
 import com.stepien.aedes.repository.LocationRepository;
+import com.stepien.aedes.service.LocalizationService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class GeoControllerImpl {
 
     Logger logger = LoggerFactory.getLogger(GeoControllerImpl.class);
-
     
     @Autowired
     private ChunkRepository chunkRepository;
 
     @Autowired
     private LocationRepository locationRepository;
+
+    @Autowired
+    private LocalizationService localizationService;
 
     @PostMapping (value = "chunks")
     public ChunkDTO addChunk(@RequestBody ChunkDTO chunkDTO) {
@@ -58,7 +61,7 @@ public class GeoControllerImpl {
     @GetMapping(value = "chunks")
     public List<ChunkDTO> getChunks() {
         List<ChunkDTO> chunksReturn = new ArrayList<>();
-        List<Chunks> dbChunks = (List<Chunks>) chunkRepository.findAll();
+        List<Chunks> dbChunks = localizationService.getAllChunks();
         for (Chunks chunks : dbChunks) {
             ChunkDTO chunkDTO = new ChunkDTO(chunks);
             chunksReturn.add(chunkDTO);
@@ -75,8 +78,6 @@ public class GeoControllerImpl {
     public List<Location> getLocations() {
         return (List<Location>) locationRepository.findAll();
     }
-
-
 
     private ChunkDTO createChunk(ChunkDTO chunkDTO) {
         Chunks chunkModel = new Chunks(chunkDTO);

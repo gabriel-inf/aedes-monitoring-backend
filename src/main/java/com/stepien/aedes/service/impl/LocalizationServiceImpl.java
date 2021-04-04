@@ -17,12 +17,15 @@ import java.util.List;
 @Service
 public class LocalizationServiceImpl implements LocalizationService{
 
+    public static List<Chunks> cachedChunks;
+
     @Autowired
     ChunkRepository chunkRepository;
 
     @Override
     public GridPosition getGridPosition(GeoPoint geoPoint) {
-        List<Chunks> chunks = (List<Chunks>) chunkRepository.findAll();
+        processChunksCache();
+        List<Chunks> chunks = cachedChunks;
 
         System.out.println(geoPoint.getLat().toString() + ", " + geoPoint.getLng().toString());
         for (Chunks chunk : chunks) {
@@ -31,6 +34,18 @@ public class LocalizationServiceImpl implements LocalizationService{
             }
         }
         return null;
+    }
+
+    @Override
+    public List<Chunks> getAllChunks() {
+        processChunksCache();
+        return cachedChunks;
+    }
+
+    private void processChunksCache() {
+        if (cachedChunks == null) {
+            cachedChunks = (List<Chunks>) chunkRepository.findAll();
+        }
     }
 
     private boolean isPointInsideChunk(GeoPoint geoPoint, Chunks chunk) {     
