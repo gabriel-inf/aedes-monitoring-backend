@@ -8,6 +8,7 @@ import com.stepien.aedes.dtos.WeatherInformationDTO;
 import com.stepien.aedes.model.Weather;
 import com.stepien.aedes.repository.WeatherRepository;
 import com.stepien.aedes.service.impl.WeatherInformationConsumer;
+import com.stepien.aedes.service.impl.WeatherSyncJob;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,15 +32,18 @@ public class SchedulableJobs {
     @Autowired
     WeatherRepository weatherRepository;
 
+    @Autowired
+    WeatherSyncJob weatherSyncJob;
 
-    @Scheduled(cron = "0 0/1 * 1/1 * ?", zone = "America/Sao_Paulo")
+
+    @Scheduled(cron = "0 */5 * * * *", zone = "America/Sao_Paulo")
     public void syncWeatherInformation() {
         logger.info("syncWeatherInformation() - Job Executed");
+        weatherSyncJob.processWeatherInformationForAllChunks();
+        // List<WeatherInformationDTO> weatherInformationDTOs = weatherInformationConsumer.getCurrentWeatherInformation("29.50", "-51.1");
 
-        List<WeatherInformationDTO> weatherInformationDTOs = weatherInformationConsumer.getCurrentWeatherInformation("29.50", "-51.1");
-
-        for (WeatherInformationDTO weatherInformationDTO : weatherInformationDTOs) {
-            logger.info(weatherInformationDTO.getWeather());
-        }
+        // for (WeatherInformationDTO weatherInformationDTO : weatherInformationDTOs) {
+        //     logger.info(weatherInformationDTO.getWeather());
+        // }
     }
 }

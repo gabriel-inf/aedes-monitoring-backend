@@ -9,6 +9,7 @@ import com.stepien.aedes.model.Location;
 import com.stepien.aedes.repository.ChunkRepository;
 import com.stepien.aedes.repository.LocationRepository;
 import com.stepien.aedes.service.LocalizationService;
+import com.stepien.aedes.service.impl.WeatherSyncJob;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,9 @@ public class GeoControllerImpl {
 
     @Autowired
     private LocalizationService localizationService;
+
+    @Autowired
+    private WeatherSyncJob weatherSyncJob;
 
     @PostMapping (value = "chunks")
     public ChunkDTO addChunk(@RequestBody ChunkDTO chunkDTO) {
@@ -82,6 +86,11 @@ public class GeoControllerImpl {
     private ChunkDTO createChunk(ChunkDTO chunkDTO) {
         Chunks chunkModel = new Chunks(chunkDTO);
         return new ChunkDTO(chunkRepository.save(chunkModel));
+    }
+
+    @GetMapping(value = "runFakeJob") 
+    public void runFakeJob(){
+        weatherSyncJob.processWeatherInformationForAllChunks();
     }
 
 }

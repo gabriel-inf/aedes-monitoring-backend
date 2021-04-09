@@ -9,13 +9,21 @@ import com.stepien.aedes.repository.ChunkRepository;
 import com.stepien.aedes.service.LocalizationService;
 import com.stepien.aedes.vo.GridPosition;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Scope("singleton")
 public class LocalizationServiceImpl implements LocalizationService{
+
+    Logger logger = LoggerFactory.getLogger(LocalizationServiceImpl.class);
 
     public static List<Chunks> cachedChunks;
 
@@ -38,6 +46,7 @@ public class LocalizationServiceImpl implements LocalizationService{
 
     @Override
     public List<Chunks> getAllChunks() {
+        logger.info("Getting chunks");
         processChunksCache();
         return cachedChunks;
     }

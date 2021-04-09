@@ -18,7 +18,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-@Configurable
 public class WeatherInformationConsumerImpl implements WeatherInformationConsumer{
 
     Logger logger = LoggerFactory.getLogger(WeatherInformationConsumerImpl.class);
@@ -44,14 +43,14 @@ public class WeatherInformationConsumerImpl implements WeatherInformationConsume
      * Gets the list of DTOs that come from a HTTP request from the weather API
      * @return
      */
-    public List<WeatherInformationDTO> getCurrentWeatherInformation(String lat, String lng) {
+    public List<WeatherInformationDTO> getCurrentWeatherInformation(Double lat, Double lng) {
         
         ResponseEntity<Object> responseEntity = null;
         List<WeatherInformationDTO> listOfWeatherDTO = new ArrayList<>();
         
         try {
-            logger.info(getPreparedUrl(lat, lng));
-            responseEntity = restTemplate.getForEntity(getPreparedUrl(lat, lng), Object.class);
+            logger.info(getPreparedUrl(lat.toString(), lng.toString()));
+            responseEntity = restTemplate.getForEntity(getPreparedUrl(lat.toString(), lng.toString()), Object.class);
             logger.info("We got a response!");
             logger.info(responseEntity.getBody().toString());
         } catch (RestClientException e){
