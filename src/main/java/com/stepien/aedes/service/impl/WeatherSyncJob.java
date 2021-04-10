@@ -40,7 +40,7 @@ public class WeatherSyncJob {
         executorService.shutdown();
 
         try {
-            executorService.awaitTermination(1, TimeUnit.MINUTES);
+            executorService.awaitTermination(10, TimeUnit.MINUTES);
         } catch(InterruptedException e) {
             e.printStackTrace();
         }
