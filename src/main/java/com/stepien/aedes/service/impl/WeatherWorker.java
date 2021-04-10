@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.stepien.aedes.dtos.HourlyWeatherDTO;
 import com.stepien.aedes.dtos.WeatherAPIReturnDTO;
-import com.stepien.aedes.dtos.WeatherInformationDTO;
 import com.stepien.aedes.model.Chunks;
 
 import org.slf4j.Logger;
