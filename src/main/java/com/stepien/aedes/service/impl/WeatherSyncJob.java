@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class WeatherSyncJob {
     
+    private static final int BATCH_SIZE = 2;
+
     @Autowired
     private LocalizationService localizationService;
 
@@ -24,11 +26,11 @@ public class WeatherSyncJob {
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-        List<Chunks> chunks = localizationService.getAllChunks();
-        int batchSize = 2;
+        List<Chunks> chunks = localizationService.getAllChunks().subList(0, 10);
+
         int start = 0;
-        for (int batchNumber = 0; batchNumber < Math.ceil(chunks.size()/batchSize); batchNumber++) {
-            int end = batchSize + batchSize*batchNumber;
+        for (int batchNumber = 0; batchNumber < Math.ceil(chunks.size()/BATCH_SIZE); batchNumber++) {
+            int end = BATCH_SIZE + BATCH_SIZE*batchNumber;
             System.out.println("Processing batch " + batchNumber + ", start: " + start + ", end: " + end);
 
             executorService.execute(new WeatherWorker(chunks.subList(start, Math.min(end, chunks.size())), weatherInformationConsumer));

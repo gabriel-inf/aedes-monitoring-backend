@@ -1,9 +1,10 @@
 package com.stepien.aedes.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
-import com.stepien.aedes.dtos.WeatherInformationDTO;
+import com.stepien.aedes.dtos.WeatherAPIReturnDTO;
 
 public interface WeatherInformationConsumer {
-    List<WeatherInformationDTO> getCurrentWeatherInformation(Double lat, Double lng);
+    WeatherAPIReturnDTO getCurrentWeatherInformation(Double lat, Double lng, Date date);
 }

@@ -1,7 +1,13 @@
 package com.stepien.aedes.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
+import com.stepien.aedes.dtos.HourlyWeatherDTO;
+import com.stepien.aedes.dtos.WeatherAPIReturnDTO;
 import com.stepien.aedes.dtos.WeatherInformationDTO;
 import com.stepien.aedes.model.Chunks;
 
@@ -22,13 +28,16 @@ public class WeatherWorker implements Runnable {
 
     @Override
     public void run() {
+
+        LocalDateTime date = LocalDateTime.now().minusDays(1);
+        Date yesterday = Date.from(date.atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+        logger.info("yesterday: " + yesterday.getTime()/1000);
+
         for (Chunks chunk : this.chunks) {
-            logger.warn("Size: " + chunk.getId());
-            logger.warn(weatherInformationConsumer.toString());
-            List<WeatherInformationDTO> weatherInformationDTOs = weatherInformationConsumer.getCurrentWeatherInformation(chunk.getCentroid().getLat(), chunk.getCentroid().getLng());
-            logger.warn("weatherInformationDTOs: " + weatherInformationDTOs.size());
-            for (WeatherInformationDTO weatherInformationDTO : weatherInformationDTOs) {
-                logger.info(weatherInformationDTO.getWeather());
+            WeatherAPIReturnDTO weatherInformationDTOs = weatherInformationConsumer.getCurrentWeatherInformation(chunk.getCentroid().getLat(), chunk.getCentroid().getLng(), yesterday);
+            
+            for (HourlyWeatherDTO hw : weatherInformationDTOs.getHourly()) {
+                logger.info(hw.toString());
             }
         }
     }
