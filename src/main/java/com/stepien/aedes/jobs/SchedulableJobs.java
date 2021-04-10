@@ -4,7 +4,6 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.TimeZone;
 
-import com.stepien.aedes.dtos.WeatherInformationDTO;
 import com.stepien.aedes.model.Weather;
 import com.stepien.aedes.repository.WeatherRepository;
 import com.stepien.aedes.service.impl.WeatherInformationConsumer;

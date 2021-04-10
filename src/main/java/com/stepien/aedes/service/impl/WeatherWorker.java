@@ -33,7 +33,7 @@ public class WeatherWorker implements Runnable {
         logger.info("yesterday: " + yesterday.getTime()/1000);
 
         for (Chunks chunk : this.chunks) {
-            WeatherAPIReturnDTO weatherInformationDTOs = weatherInformationConsumer.getCurrentWeatherInformation(chunk.getCentroid().getLat(), chunk.getCentroid().getLng(), yesterday);
+            WeatherAPIReturnDTO weatherInformationDTOs = weatherInformationConsumer.getCurrentWeatherInformation(chunk, yesterday);
             
             for (HourlyWeatherDTO hw : weatherInformationDTOs.getHourly()) {
                 logger.info(hw.toString());

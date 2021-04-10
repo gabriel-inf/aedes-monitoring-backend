@@ -26,7 +26,7 @@ public class WeatherSyncJob {
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-        List<Chunks> chunks = localizationService.getAllChunks().subList(0, 2);
+        List<Chunks> chunks = localizationService.getAllChunks();
 
         int start = 0;
         for (int batchNumber = 0; batchNumber < Math.ceil(chunks.size()/BATCH_SIZE); batchNumber++) {

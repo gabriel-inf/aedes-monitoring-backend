@@ -1,6 +1,8 @@
 package com.stepien.aedes.controller.impl;
 
+import java.security.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.stepien.aedes.dtos.ChunkDTO;
@@ -11,6 +13,7 @@ import com.stepien.aedes.repository.LocationRepository;
 import com.stepien.aedes.service.LocalizationService;
 import com.stepien.aedes.service.impl.WeatherSyncJob;
 
+import org.apache.tomcat.jni.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +93,13 @@ public class GeoControllerImpl {
 
     @GetMapping(value = "runFakeJob") 
     public void runFakeJob(){
+        
+        Date start = new Date();
+
         weatherSyncJob.processWeatherInformationForAllChunks();
+        Date end = new Date();
+        long seconds = (end.getTime()-start.getTime())/1000;
+        logger.info("processWeatherInformationForAllChunks took: " + seconds + " seconds");
     }
 
 }

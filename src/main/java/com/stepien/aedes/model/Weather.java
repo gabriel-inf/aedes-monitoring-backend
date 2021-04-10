@@ -1,6 +1,6 @@
 package com.stepien.aedes.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,9 +8,17 @@ import javax.persistence.GeneratedValue;
 
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,9 +44,6 @@ public class Weather {
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
-    private String locationId;
-
     private Double avergeTemperature;
     private Double avergePressure;
     private Double avergeHumidity;
@@ -48,4 +53,9 @@ public class Weather {
     private Double minTemperature;
     private Double minPressure;
     private Double minHumidity;
+
+    @JsonIgnoreProperties({"centroid", "bottomRight", "bottomLeft", "topRight", "topLeft"}) 
+    @ManyToOne
+    private Chunks chunk;
+
 }
