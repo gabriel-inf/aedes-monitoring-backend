@@ -35,7 +35,6 @@ public class LocalizationServiceImpl implements LocalizationService{
         processChunksCache();
         List<Chunks> chunks = cachedChunks;
 
-        System.out.println(geoPoint.getLat().toString() + ", " + geoPoint.getLng().toString());
         for (Chunks chunk : chunks) {
             if (isPointInsideChunk(geoPoint, chunk)) {
                 return new GridPosition(chunk.getGridLine(), chunk.getGridColumn());
@@ -46,7 +45,6 @@ public class LocalizationServiceImpl implements LocalizationService{
 
     @Override
     public List<Chunks> getAllChunks() {
-        logger.info("Getting chunks");
         processChunksCache();
         return cachedChunks;
     }

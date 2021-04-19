@@ -8,13 +8,17 @@ import java.util.concurrent.TimeUnit;
 import com.stepien.aedes.model.Chunks;
 import com.stepien.aedes.service.LocalizationService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WeatherSyncJob {
     
-    private static final int BATCH_SIZE = 2;
+    Logger logger = LoggerFactory.getLogger(WeatherSyncJob.class);
+
+    private static final int BATCH_SIZE = 100;
 
     @Autowired
     private LocalizationService localizationService;
@@ -31,7 +35,7 @@ public class WeatherSyncJob {
         int start = 0;
         for (int batchNumber = 0; batchNumber < Math.ceil(chunks.size()/BATCH_SIZE); batchNumber++) {
             int end = BATCH_SIZE + BATCH_SIZE*batchNumber;
-            System.out.println("Processing batch " + batchNumber + ", start: " + start + ", end: " + end);
+            logger.info(String.format("Dispatched batch #%d [%d - %d]", batchNumber, start, end));
 
             executorService.execute(new WeatherWorker(chunks.subList(start, Math.min(end, chunks.size())), weatherInformationConsumer));
             start = end;
@@ -42,7 +46,7 @@ public class WeatherSyncJob {
         try {
             executorService.awaitTermination(10, TimeUnit.MINUTES);
         } catch(InterruptedException e) {
-            e.printStackTrace();
+            logger.error("processWeatherInformationForAllChunks - failed to await threads", e);
         }
 
     }

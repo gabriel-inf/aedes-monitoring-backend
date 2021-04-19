@@ -1,13 +1,11 @@
 package com.stepien.aedes.service.impl;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-import com.stepien.aedes.dtos.HourlyWeatherDTO;
-import com.stepien.aedes.dtos.WeatherAPIReturnDTO;
 import com.stepien.aedes.model.Chunks;
 
 import org.slf4j.Logger;
@@ -30,14 +28,9 @@ public class WeatherWorker implements Runnable {
 
         LocalDateTime date = LocalDateTime.now().minusDays(1);
         Date yesterday = Date.from(date.atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
-        logger.info("yesterday: " + yesterday.getTime()/1000);
 
         for (Chunks chunk : this.chunks) {
-            WeatherAPIReturnDTO weatherInformationDTOs = weatherInformationConsumer.getCurrentWeatherInformation(chunk, yesterday);
-            
-            for (HourlyWeatherDTO hw : weatherInformationDTOs.getHourly()) {
-                logger.info(hw.toString());
-            }
+            weatherInformationConsumer.getCurrentWeatherInformation(chunk, yesterday);
         }
     }
     

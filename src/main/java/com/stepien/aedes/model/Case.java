@@ -20,7 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Case {
-    public static final String TABLE_NAME = "case";
+    public static final String TABLE_NAME = "dengue_cases";
 
     @Id
 	@GeneratedValue(generator = "system-uuid")

@@ -29,9 +29,7 @@ public class WeatherController {
 
     @GetMapping
     public List<Weather> getAllWeatherInfo() {
-        List<Weather> w =  (List<Weather>) weatherRepository.findAll();
-        System.out.println("Logger: " + w.get(0).getDate().toString());
-        return w;
+       return (List<Weather>) weatherRepository.findAll();
     }
 
     // Date format: yyyy-MM-dd

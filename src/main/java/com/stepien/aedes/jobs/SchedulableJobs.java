@@ -1,10 +1,5 @@
 package com.stepien.aedes.jobs;
 
-import java.time.ZoneId;
-import java.util.List;
-import java.util.TimeZone;
-
-import com.stepien.aedes.model.Weather;
 import com.stepien.aedes.repository.WeatherRepository;
 import com.stepien.aedes.service.impl.WeatherInformationConsumer;
 import com.stepien.aedes.service.impl.WeatherSyncJob;
@@ -35,14 +30,10 @@ public class SchedulableJobs {
     WeatherSyncJob weatherSyncJob;
 
 
-    @Scheduled(cron = "0 */5 * * * *", zone = "America/Sao_Paulo")
+    @Scheduled(cron = "0 * * ? * *", zone = "America/Sao_Paulo")
     public void syncWeatherInformation() {
-        logger.info("syncWeatherInformation() - Job Executed");
+        logger.info("syncWeatherInformation() - Job Starting job");
         weatherSyncJob.processWeatherInformationForAllChunks();
-        // List<WeatherInformationDTO> weatherInformationDTOs = weatherInformationConsumer.getCurrentWeatherInformation("29.50", "-51.1");
-
-        // for (WeatherInformationDTO weatherInformationDTO : weatherInformationDTOs) {
-        //     logger.info(weatherInformationDTO.getWeather());
-        // }
+        logger.info("syncWeatherInformation() - Job ending job");
     }
 }

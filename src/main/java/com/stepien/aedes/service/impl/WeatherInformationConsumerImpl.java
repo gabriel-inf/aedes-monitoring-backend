@@ -54,9 +54,7 @@ public class WeatherInformationConsumerImpl implements WeatherInformationConsume
         ResponseEntity<WeatherAPIReturnDTO> responseEntity = null;
         WeatherAPIReturnDTO weatherAPIReturnDTO = null;
         try {
-            logger.info(getPreparedUrl(lat.toString(), lng.toString(), date));
             responseEntity = restTemplate.getForEntity(getPreparedUrl(lat.toString(), lng.toString(), date), WeatherAPIReturnDTO.class);
-            logger.info(responseEntity.getBody().toString());
         } catch (RestClientException e){
             logger.error("Error while getting weather information", e);
         }
@@ -67,7 +65,6 @@ public class WeatherInformationConsumerImpl implements WeatherInformationConsume
         } else {
             logger.error("We did not receive any information for chunk: " + chunk.getId());
         }
-
         return weatherAPIReturnDTO;
     }
 
