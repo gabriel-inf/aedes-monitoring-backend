@@ -6,19 +6,18 @@ import com.stepien.aedes.dtos.LocationPeriodDTO;
 import com.stepien.aedes.model.GeoPoint;
 import com.stepien.aedes.model.Identification;
 import com.stepien.aedes.repository.IdentificationRepository;
+import com.stepien.aedes.service.IdentificationService;
 import com.stepien.aedes.service.LocalizationService;
 import com.stepien.aedes.vo.GridPosition;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @CrossOrigin
@@ -26,12 +25,19 @@ import java.util.Optional;
 @RequestMapping("/identifications")
 public class IdentificationControllerImpl implements IdentificationController {
 
+    private static final SimpleDateFormat dateFormat =
+            new SimpleDateFormat("yyyy-MM-dd");
+
     private IdentificationRepository identificationRepository;
     private LocalizationService localizationService;
+    private IdentificationService identificationService;
 
-    public IdentificationControllerImpl(IdentificationRepository identificationRepository, LocalizationService localizationService) {
+    public IdentificationControllerImpl(IdentificationRepository identificationRepository,
+                                        LocalizationService localizationService,
+                                        IdentificationService identificationService) {
         this.identificationRepository = identificationRepository;
         this.localizationService = localizationService;
+        this.identificationService = identificationService;
     }
 
     @Override
@@ -84,23 +90,43 @@ public class IdentificationControllerImpl implements IdentificationController {
 
     @GetMapping
     @Override
-    public Collection<Identification>getAllIdentifications() {
+    public Collection<Identification> getAllIdentifications() {
         return (Collection<Identification>) getIdentificationRepository().findAll();
     }
 
     @GetMapping("/location/{location}")
-    public Collection<Identification>getAllIdentificationsByLocation(@PathVariable String location) {
+    public Collection<Identification> getAllIdentificationsByLocation(@PathVariable String location) {
         return getIdentificationRepository().findAllByLocationId(location);
     }
 
     @GetMapping("/locationDate")
     @Override
-    public Collection<Identification>getAllIdentificationsByLocationAndPeriod(@RequestBody LocationPeriodDTO locationPeriodDTO) {
-        return getIdentificationRepository().findAllByLocationIdAndTimeBetween(locationPeriodDTO.getLocationId(), locationPeriodDTO.getStartDate(), locationPeriodDTO.getEndDate());
+    public Collection<Identification> getAllIdentificationsByLocationAndPeriod(@RequestBody LocationPeriodDTO locationPeriodDTO) {
+        return getIdentificationRepository().findAllByLocationIdAndTimeBetween(Integer.valueOf(locationPeriodDTO.getLocationId()), locationPeriodDTO.getStartDate(), locationPeriodDTO.getEndDate());
+    }
+
+    @GetMapping("getLocationIdentificationsBetweenDates")
+    public Collection<Identification> getLocationIdentificationsBetweenDates(
+            @RequestParam Integer locationId,
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        try {
+            return getIdentificationService().getNeighborhoodIdentificationsBetween(
+                    locationId,
+                    dateFormat.parse(startDate),
+                    dateFormat.parse(endDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public IdentificationRepository getIdentificationRepository() {
         return this.identificationRepository;
+    }
+    public IdentificationService getIdentificationService(){
+        return this.identificationService;
     }
 
 }
