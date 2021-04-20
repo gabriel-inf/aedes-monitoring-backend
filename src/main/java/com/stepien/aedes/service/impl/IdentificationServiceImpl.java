@@ -23,7 +23,7 @@ public class IdentificationServiceImpl implements IdentificationService{
 
     @Override
     public List<Identification> getIdentificationsBetween(Date startDate, Date endDate) {
-        return null;
+        return (List<Identification>) getIdentificationRepository().findAllByTimeBetween(startDate, endDate);
     }
 
     @Override

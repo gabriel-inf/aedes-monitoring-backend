@@ -122,6 +122,21 @@ public class IdentificationControllerImpl implements IdentificationController {
         }
     }
 
+    @GetMapping("getAllIdentificationsBetweenDates")
+    public Collection<Identification> getAllIdentificationsBetweenDates(
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        try {
+            return getIdentificationService().getIdentificationsBetween(
+                    dateFormat.parse(startDate),
+                    dateFormat.parse(endDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public IdentificationRepository getIdentificationRepository() {
         return this.identificationRepository;
     }

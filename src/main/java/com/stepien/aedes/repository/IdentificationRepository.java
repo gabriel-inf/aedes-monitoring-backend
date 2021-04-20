@@ -1,6 +1,6 @@
 package com.stepien.aedes.repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Collection;
 
 import com.stepien.aedes.model.Identification;
@@ -34,8 +34,8 @@ public interface IdentificationRepository extends CrudRepository<Identification,
     @Query(value = GET_ALL_BY_LOCATION_AND_DATE_RANGE, nativeQuery = true)
     Collection<Identification> findAllByLocationIdAndTimeBetween(
             @Param("locationCode") Integer locationCode,
-            @Param("startDate") java.util.Date startDate,
-            @Param("endDate")java.util.Date endDate
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate
     );
 
 }
