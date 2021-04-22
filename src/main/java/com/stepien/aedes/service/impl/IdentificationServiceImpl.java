@@ -70,9 +70,10 @@ public class IdentificationServiceImpl implements IdentificationService{
         List<IdentificationDayCountDTO> countByDayWithAllDays = new ArrayList<>();
 
         boolean found;
+        IdentificationDayCountDTO foundElement;
         for (Date day : totalDates) {
             found = false;
-            IdentificationDayCountDTO foundElement = null;
+            foundElement = null;
             for (IdentificationDayCountDTO identificationDayCountDTO : countByDay) {
                 if (isSameDay(identificationDayCountDTO.getDay(), day)) {
                     found = true;
@@ -105,9 +106,9 @@ public class IdentificationServiceImpl implements IdentificationService{
     }
 
     private boolean isSameDay(Date d1, Date d2) {
-        return d1.getDay() == d2.getDay()
-            && d1.getMonth() == d2.getMonth()
-            && d1.getYear() == d2.getYear();
+        String date1 = d1.toString();
+        String date2 = d2.toString();
+        return date1.contains(date2);
     }
 
     
