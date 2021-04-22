@@ -2,6 +2,7 @@ package com.stepien.aedes.controller.impl;
 
 import com.stepien.aedes.controller.interfaces.IdentificationController;
 import com.stepien.aedes.dtos.IdentificationDTO;
+import com.stepien.aedes.dtos.IdentificationDayCountDTO;
 import com.stepien.aedes.dtos.IdentificationsPerLocationDto;
 import com.stepien.aedes.dtos.LocationPeriodDTO;
 import com.stepien.aedes.model.GeoPoint;
@@ -165,6 +166,28 @@ public class IdentificationControllerImpl implements IdentificationController {
             
 
             return getIdentificationService().getNumberOfIdentificationPerLocationBetween(
+                    dateFormat.parse(startDate),
+                    formatterDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @GetMapping("getIdentificationDayCounts")
+    public Collection<IdentificationDayCountDTO> getIdentificationDayCounts(
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        try {
+
+            Date formatterDate = dateFormat.parse(endDate);
+            formatterDate.setHours(23);
+            formatterDate.setMinutes(59);
+            formatterDate.setSeconds(59);
+            
+
+            return getIdentificationService().getIdentificationDayCounts(
                     dateFormat.parse(startDate),
                     formatterDate);
         } catch (ParseException e) {

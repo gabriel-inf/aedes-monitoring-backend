@@ -3,6 +3,7 @@ package com.stepien.aedes.repository;
 import java.util.Date;
 import java.util.Collection;
 
+import com.stepien.aedes.dtos.IdentificationDayCountDTO;
 import com.stepien.aedes.dtos.IdentificationsPerLocationDto;
 import com.stepien.aedes.model.Identification;
 
@@ -47,6 +48,21 @@ public interface IdentificationRepository extends CrudRepository<Identification,
                 numberOfIdentificationInThePeriod desc
         """;
 
+    String IDENTIFICATIONS_BY_DAY = 
+        """
+            select
+                count(i.id) numIdentifications,
+                date_trunc('day', i.time) as day
+            from
+                identifications i 
+            where
+                i.time between :startDate and :endDate
+            group by
+                day
+            order by
+                day asc
+        """;
+
 
     Collection<Identification> findAllByLocationId(String locationId);
     Collection<Identification> findAllByTimeBetween(
@@ -65,6 +81,12 @@ public interface IdentificationRepository extends CrudRepository<Identification,
     Collection<IdentificationsPerLocationDto> getNumberOfIdentificationPerLocationBetween(
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate
+    );
+
+    @Query(value = IDENTIFICATIONS_BY_DAY, nativeQuery = true)
+    Collection<IdentificationDayCountDTO> getIdentificationDayCounts(
+        @Param("startDate") Date startDate,
+        @Param("endDate") Date endDate
     );
 
 }

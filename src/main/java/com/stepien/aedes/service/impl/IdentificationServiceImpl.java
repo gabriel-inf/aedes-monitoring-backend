@@ -1,11 +1,15 @@
 package com.stepien.aedes.service.impl;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
+
+import com.stepien.aedes.dtos.IdentificationDayCountDTO;
+import com.stepien.aedes.dtos.IdentificationDayCountDTOImpl;
 import com.stepien.aedes.dtos.IdentificationsPerLocationDto;
 import com.stepien.aedes.model.Identification;
 import com.stepien.aedes.repository.IdentificationRepository;
@@ -46,8 +50,65 @@ public class IdentificationServiceImpl implements IdentificationService{
         return null;
     }
 
+    @Override
+    public List<IdentificationDayCountDTO> getIdentificationDayCounts(Date startDate, Date endDate) {
+
+
+        LocalDate start = convertToLocalDateViaInstant(startDate);
+        LocalDate end = convertToLocalDateViaInstant(endDate);
+        List<Date> totalDates = new ArrayList<>();
+        while (!start.isAfter(end)) {
+            totalDates.add(convertToDateViaSqlDate(start));
+            start = start.plusDays(1);
+        }
+        
+
+        List<IdentificationDayCountDTO> countByDay = new ArrayList<>(getIdentificationRepository()
+                 .getIdentificationDayCounts(startDate, endDate));
+
+
+        List<IdentificationDayCountDTO> countByDayWithAllDays = new ArrayList<>();
+
+        boolean found;
+        for (Date day : totalDates) {
+            found = false;
+            IdentificationDayCountDTO foundElement = null;
+            for (IdentificationDayCountDTO identificationDayCountDTO : countByDay) {
+                if (isSameDay(identificationDayCountDTO.getDay(), day)) {
+                    found = true;
+                    foundElement = identificationDayCountDTO;
+                    break;
+                }
+            }
+            if (!found) {
+                countByDayWithAllDays.add(new IdentificationDayCountDTOImpl(0, day));
+            } else {
+                countByDayWithAllDays.add(foundElement);
+            }
+        }
+        return countByDayWithAllDays;
+    }
+
+
     public IdentificationRepository getIdentificationRepository() {
         return this.identificationRepository;
     }
+
+    private LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+          .atZone(ZoneId.systemDefault())
+          .toLocalDate();
+    }
+
+    public Date convertToDateViaSqlDate(LocalDate dateToConvert) {
+        return java.sql.Date.valueOf(dateToConvert);
+    }
+
+    private boolean isSameDay(Date d1, Date d2) {
+        return d1.getDay() == d2.getDay()
+            && d1.getMonth() == d2.getMonth()
+            && d1.getYear() == d2.getYear();
+    }
+
     
 }
