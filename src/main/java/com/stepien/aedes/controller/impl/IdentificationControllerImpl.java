@@ -2,6 +2,7 @@ package com.stepien.aedes.controller.impl;
 
 import com.stepien.aedes.controller.interfaces.IdentificationController;
 import com.stepien.aedes.dtos.IdentificationDTO;
+import com.stepien.aedes.dtos.IdentificationsPerLocationDto;
 import com.stepien.aedes.dtos.LocationPeriodDTO;
 import com.stepien.aedes.model.GeoPoint;
 import com.stepien.aedes.model.Identification;
@@ -16,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
@@ -112,10 +114,16 @@ public class IdentificationControllerImpl implements IdentificationController {
             @RequestParam String endDate
     ) {
         try {
+
+            Date formatedEndDate = dateFormat.parse(endDate);
+            formatedEndDate.setHours(23);
+            formatedEndDate.setMinutes(59);
+            formatedEndDate.setSeconds(59);
+
             return getIdentificationService().getNeighborhoodIdentificationsBetween(
                     locationId,
                     dateFormat.parse(startDate),
-                    dateFormat.parse(endDate));
+                    formatedEndDate);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -128,9 +136,37 @@ public class IdentificationControllerImpl implements IdentificationController {
             @RequestParam String endDate
     ) {
         try {
+
+            Date formatterDate = dateFormat.parse(endDate);
+            formatterDate.setHours(23);
+            formatterDate.setMinutes(59);
+            formatterDate.setSeconds(59);
+            
             return getIdentificationService().getIdentificationsBetween(
                     dateFormat.parse(startDate),
-                    dateFormat.parse(endDate));
+                    formatterDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @GetMapping("getNumberOfIdentificationPerLocationBetween")
+    public Collection<IdentificationsPerLocationDto> getNumberOfIdentificationPerLocationBetween(
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        try {
+
+            Date formatterDate = dateFormat.parse(endDate);
+            formatterDate.setHours(23);
+            formatterDate.setMinutes(59);
+            formatterDate.setSeconds(59);
+            
+
+            return getIdentificationService().getNumberOfIdentificationPerLocationBetween(
+                    dateFormat.parse(startDate),
+                    formatterDate);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;

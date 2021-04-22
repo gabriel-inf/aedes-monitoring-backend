@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.stepien.aedes.dtos.ChunkDTO;
+import com.stepien.aedes.dtos.IdentificationsPerLocationDto;
 import com.stepien.aedes.model.Chunks;
 import com.stepien.aedes.model.Location;
 import com.stepien.aedes.repository.ChunkRepository;

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.stepien.aedes.dtos.IdentificationsPerLocationDto;
 import com.stepien.aedes.model.Identification;
 import com.stepien.aedes.repository.IdentificationRepository;
 import com.stepien.aedes.service.IdentificationService;
@@ -30,6 +31,12 @@ public class IdentificationServiceImpl implements IdentificationService{
     public List<Identification> getNeighborhoodIdentificationsBetween(Integer neighborhoodId, Date startDate, Date endDate) {
         return new ArrayList<>(getIdentificationRepository()
                  .findAllByLocationIdAndTimeBetween(neighborhoodId, startDate, endDate));
+    }
+
+    @Override
+    public List<IdentificationsPerLocationDto> getNumberOfIdentificationPerLocationBetween(Date startDate, Date endDate) {
+        return new ArrayList<>(getIdentificationRepository()
+                 .getNumberOfIdentificationPerLocationBetween(startDate, endDate));
     }
 
     @Override
