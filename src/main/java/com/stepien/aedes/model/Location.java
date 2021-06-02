@@ -39,6 +39,12 @@ public class Location {
     @Column(nullable = true)
     private String country;    
 
+    // @Column
+    // private Double lat;
+
+    // @Column
+    // private Double lng;
+
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Polygon> polygons;
 }

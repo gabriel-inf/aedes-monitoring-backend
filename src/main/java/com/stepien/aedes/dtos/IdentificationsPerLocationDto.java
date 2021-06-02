@@ -9,4 +9,6 @@ public interface IdentificationsPerLocationDto {
     Integer getNumberOfIdentificationInThePeriod();
     Date getPeriodStart();
     Date getPeriodEnd();
+    Double getLat();
+    Double getLng();
 }

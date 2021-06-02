@@ -138,14 +138,16 @@ public class IdentificationControllerImpl implements IdentificationController {
     ) {
         try {
 
-            Date formatterDate = dateFormat.parse(endDate);
-            formatterDate.setHours(23);
-            formatterDate.setMinutes(59);
-            formatterDate.setSeconds(59);
+            Date endDateFormatter = dateFormat.parse(endDate);
+
+            Calendar c = Calendar.getInstance(); 
+            c.setTime(endDateFormatter); 
+            c.add(Calendar.DATE, 1);
+            endDateFormatter = c.getTime();
             
             return getIdentificationService().getIdentificationsBetween(
                     dateFormat.parse(startDate),
-                    formatterDate);
+                    endDateFormatter);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;

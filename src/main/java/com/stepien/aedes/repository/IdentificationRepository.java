@@ -34,7 +34,9 @@ public interface IdentificationRepository extends CrudRepository<Identification,
                 l.neighborhood as locationName,
                 count(ident.id) as numberOfIdentificationInThePeriod,
                 current_date as periodStart,
-                current_timestamp as periodEnd
+                current_timestamp as periodEnd,
+                l.lat as lat,
+                l.lng as lng
             from
                 locations l inner join
                 chunks_intersects ci on (l.code = ci.intersection) inner join
@@ -43,7 +45,7 @@ public interface IdentificationRepository extends CrudRepository<Identification,
             where
                 ident.time between :startDate and :endDate
             group by
-                l.code, l.neighborhood
+                l.code, l.neighborhood, l.lat, l.lng
             order by
                 numberOfIdentificationInThePeriod desc
         """;
