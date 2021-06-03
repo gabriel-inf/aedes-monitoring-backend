@@ -22,6 +22,11 @@ public class ChunkDTO {
     private String id;
     private List<Integer> intersects;
 
+    /**
+     * A chunk is an object that maintains information for a designed area
+     * This squared area is defined by the points from GeoPointDTO structures
+     * @param chunkModel
+     */
     public ChunkDTO (Chunks chunkModel) {
         this.centroid = new GeoPointDTO(chunkModel.getCentroid());
         this.topLeft = new GeoPointDTO(chunkModel.getTopLeft());
