@@ -15,4 +15,5 @@ public interface LocalizationService {
      * @return
      */
     List<Chunks> getAllChunks();
+    Chunks getChunkPosition(GeoPoint geoPoint);
 }

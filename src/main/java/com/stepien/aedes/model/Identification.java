@@ -12,8 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.stepien.aedes.dtos.IdentificationDTO;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -46,11 +48,19 @@ public class Identification {
     @Column(name = "grid_column")
     private Integer gridColumn;
 
+    @OneToOne
+    @JsonIgnoreProperties({ "centroid", "intersects" })
+    private Chunks chunk;
+
     public Identification(IdentificationDTO identificationDTO) {
         this.lat = identificationDTO.getLat();
         this.lng = identificationDTO.getLng();
         this.locationId = "TBD";
         this.time = new Date();
+    }
+
+    public void setChunk(Chunks chunk) {
+        this.chunk = chunk;
     }
 
 }

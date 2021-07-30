@@ -5,6 +5,7 @@ import com.stepien.aedes.dtos.IdentificationDTO;
 import com.stepien.aedes.dtos.IdentificationDayCountDTO;
 import com.stepien.aedes.dtos.IdentificationsPerLocationDto;
 import com.stepien.aedes.dtos.LocationPeriodDTO;
+import com.stepien.aedes.model.Chunks;
 import com.stepien.aedes.model.GeoPoint;
 import com.stepien.aedes.model.Identification;
 import com.stepien.aedes.repository.IdentificationRepository;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -48,11 +47,14 @@ public class IdentificationControllerImpl implements IdentificationController {
     public Identification addIdentification(@RequestBody IdentificationDTO newIdentification) {
         Identification identification = new Identification(newIdentification);
         
-        GridPosition gridPosition = localizationService.getGridPosition(new GeoPoint(newIdentification.getLat(), newIdentification.getLng()));
-
+        // get the chunk instead of the grid position
+        GeoPoint identificationPoint = new GeoPoint(newIdentification.getLat(), newIdentification.getLng());
+        GridPosition gridPosition = localizationService.getGridPosition(identificationPoint);
+        Chunks chunk = localizationService.getChunkPosition(identificationPoint);
         if (gridPosition != null) {
             identification.setGridLine(gridPosition.getGridLine());
             identification.setGridColumn(gridPosition.getGridColumn());
+            identification.setChunk(chunk);
             return (Identification) getIdentificationRepository().save(identification);
         }
         return null;

@@ -13,7 +13,6 @@ import com.stepien.aedes.vo.GridPosition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +37,20 @@ public class LocalizationServiceImpl implements LocalizationService{
         for (Chunks chunk : chunks) {
             if (isPointInsideChunk(geoPoint, chunk)) {
                 return new GridPosition(chunk.getGridLine(), chunk.getGridColumn());
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the chunk that contains the given point
+     */
+    public Chunks getChunkPosition(GeoPoint geoPoint) {
+        processChunksCache();
+        List<Chunks> chunks = cachedChunks;
+        for (Chunks chunk : chunks) {
+            if (isPointInsideChunk(geoPoint, chunk)) {
+                return chunk;
             }
         }
         return null;
