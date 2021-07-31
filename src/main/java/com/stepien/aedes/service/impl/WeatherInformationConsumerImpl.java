@@ -80,7 +80,16 @@ public class WeatherInformationConsumerImpl implements WeatherInformationConsume
     }
 
 
+    /**
+     * Saves all the date information from the chunk. Since we are receiving the weather information for the whole day,
+     * we process it before saving
+     *
+     * @param weatherAPIReturnDTO
+     * @param chunk
+     */
     private void saveLocationDayParameters(WeatherAPIReturnDTO weatherAPIReturnDTO, Chunks chunk) {
+
+
         Weather weather = new Weather();
         LocalDateTime today = LocalDateTime.now();   
         ZonedDateTime zdt = ZonedDateTime.ofInstant(today.minusDays(1).atZone(ZoneId.of("America/Sao_Paulo")).toInstant(), ZoneId.systemDefault());

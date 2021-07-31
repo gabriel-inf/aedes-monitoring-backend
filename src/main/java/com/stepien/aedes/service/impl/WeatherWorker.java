@@ -30,7 +30,7 @@ public class WeatherWorker implements Runnable {
         Date yesterday = Date.from(date.atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
 
         for (Chunks chunk : this.chunks) {
-            weatherInformationConsumer.getCurrentWeatherInformation(chunk, yesterday);
+            weatherInformationConsumer.getCurrentWeatherInformation(chunk, yesterday); // poor naming, we get the weather information for the previous day
         }
     }
     
