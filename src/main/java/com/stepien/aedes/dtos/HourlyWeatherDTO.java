@@ -20,4 +20,5 @@ public class HourlyWeatherDTO {
     private Integer visibility;
     private Double wind_speed;
     private Double wind_deg;
+    private HourlyRainDTO rain;
 }

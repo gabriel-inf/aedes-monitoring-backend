@@ -111,6 +111,7 @@ public class WeatherInformationConsumerImpl implements WeatherInformationConsume
         Double visibility = 0.0;
         Double wind_speed = 0.0;
         Double wind_deg = 0.0;
+        Double rain = 0.0;
 
         Double maxTemperature = -99999.0;
         Double minTemperature = 99999.0;
@@ -136,6 +137,10 @@ public class WeatherInformationConsumerImpl implements WeatherInformationConsume
             minHumidity = Math.min(minHumidity, hourInfo.getHumidity());
             maxPressure = Math.max(maxPressure, hourInfo.getPressure());
             minPressure = Math.min(minPressure, hourInfo.getPressure());
+
+            if (hourInfo.getRain() != null && hourInfo.getRain().getLh() != null) {
+                rain += hourInfo.getRain().getLh();
+            }
         }
 
         int numberOfWeatherObjects = weatherAPIReturnDTO.getHourly().size();
@@ -149,7 +154,6 @@ public class WeatherInformationConsumerImpl implements WeatherInformationConsume
         visibility = visibility/numberOfWeatherObjects;
         wind_speed = wind_speed/numberOfWeatherObjects;
         wind_deg = wind_deg/numberOfWeatherObjects;
-
 
         weather.setDate(yesterday);
         weather.setChunk(chunk);
@@ -165,6 +169,8 @@ public class WeatherInformationConsumerImpl implements WeatherInformationConsume
         weather.setMaxPressure(maxPressure);
         weather.setMinPressure(minPressure);
         weather.setAvergePressure(pressure);
+
+        weather.setRain(rain);
 
         weatherRepository.save(weather);
     }

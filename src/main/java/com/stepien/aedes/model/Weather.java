@@ -53,6 +53,7 @@ public class Weather {
     private Double minTemperature;
     private Double minPressure;
     private Double minHumidity;
+    private Double rain;
 
     @JsonIgnoreProperties({"centroid", "bottomRight", "bottomLeft", "topRight", "topLeft"}) 
     @ManyToOne
