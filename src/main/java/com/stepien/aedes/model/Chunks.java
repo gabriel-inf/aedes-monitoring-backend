@@ -19,6 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -30,6 +31,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Table(name = Chunks.TABLE_NAME)
+@EqualsAndHashCode
 public class Chunks {
 
     public static final String TABLE_NAME = "chunks";
