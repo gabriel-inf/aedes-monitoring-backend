@@ -67,6 +67,10 @@ public class PredictionController {
         @RequestParam int daysInFuture) throws ParseException {
         
         Date parsedDate = calculateSubmissionDate(date, "America/Sao_Paulo");
+
+        // add days in the future to the parsed date
+        parsedDate = addDays(parsedDate, daysInFuture);
+
         Map<String, Double> result = null;
         List<Prediction> predictions = predictionRepository.findByIdentificationDate(parsedDate);
         if (predictions != null && predictions.size() > 0) {
@@ -78,7 +82,12 @@ public class PredictionController {
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    
+
+    private Date addDays(Date date, int days) {
+        long time = date.getTime();
+        time += days * 24 * 60 * 60 * 1000;
+        return new Date(time);
+    }
 
     private synchronized Date calculateSubmissionDate(String dateString, String userTimeZone) throws ParseException {
         dateFormat.setTimeZone(TimeZone.getTimeZone(userTimeZone));
