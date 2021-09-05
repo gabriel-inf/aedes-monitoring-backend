@@ -1,12 +1,12 @@
 package com.stepien.aedes.controller.impl;
 
-import java.security.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.stepien.aedes.dtos.ChunkDTO;
-import com.stepien.aedes.dtos.IdentificationsPerLocationDto;
 import com.stepien.aedes.model.Chunks;
 import com.stepien.aedes.model.Location;
 import com.stepien.aedes.repository.ChunkRepository;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,6 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class GeoControllerImpl {
 
     Logger logger = LoggerFactory.getLogger(GeoControllerImpl.class);
+
+    private static final SimpleDateFormat dateFormat =
+    new SimpleDateFormat("yyyy-MM-dd");
     
     @Autowired
     private ChunkRepository chunkRepository;
@@ -84,6 +88,58 @@ public class GeoControllerImpl {
     @GetMapping(value = "locations")
     public List<Location> getLocations() {
         return (List<Location>) locationRepository.findAll();
+    }
+
+    @GetMapping(value = "getNumberOfChunksPerLocationId")
+    public Integer getNumberOfChunksPerLocationId(@RequestParam Integer locationId) {
+        return locationRepository.getNumberOfChunksPerLocationId(locationId);
+    }
+
+    @GetMapping(value = "getNumberOfIdentificationsPerLocationCodeAndPeriod")
+    public Integer getNumberOfIdentificationsPerLocationCodeAndPeriod(
+        @RequestParam Integer locationId,
+        @RequestParam String startDate,
+        @RequestParam String endDate
+        ) throws ParseException {
+
+        Date formatedStartDate =  dateFormat.parse(startDate);
+        Date formatedEndDate = getFormatedEndDate(endDate);
+
+        return locationRepository.getNumberOfIdentificationsPerLocationCodeAndPeriod(locationId, formatedStartDate, formatedEndDate);
+    }
+
+    @GetMapping(value = "getPredictionsByLocationIdAndPeriod")
+    public Integer getPredictionsByLocationIdAndPeriod(
+        @RequestParam Integer locationId,
+        @RequestParam String startDate,
+        @RequestParam String endDate
+        ) throws ParseException {
+
+        Date formatedStartDate =  dateFormat.parse(startDate);
+        Date formatedEndDate = getFormatedEndDate(endDate);
+
+        return locationRepository.getPredictionsByLocationIdAndPeriod(locationId, formatedStartDate, formatedEndDate);
+    }
+
+    @GetMapping(value = "getNumberOfChunksWithIdentificationsForecastByLocationIdBetweenPeriod")
+    public Integer getNumberOfChunksWithIdentificationsForecastByLocationIdBetweenPeriod(
+        @RequestParam Integer locationId,
+        @RequestParam String startDate,
+        @RequestParam String endDate
+        ) throws ParseException {
+
+        Date formatedStartDate =  dateFormat.parse(startDate);
+        Date formatedEndDate = getFormatedEndDate(endDate);
+
+        return locationRepository.getNumberOfChunksWithIdentificationsForecastByLocationIdBetweenPeriod(locationId, formatedStartDate, formatedEndDate);
+    }
+
+    private Date getFormatedEndDate(String date) throws ParseException {
+        Date formatedEndDate = dateFormat.parse(date);
+        formatedEndDate.setHours(23);
+        formatedEndDate.setMinutes(59);
+        formatedEndDate.setSeconds(59);
+        return formatedEndDate;
     }
 
     private ChunkDTO createChunk(ChunkDTO chunkDTO) {

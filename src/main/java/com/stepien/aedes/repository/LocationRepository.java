@@ -1,6 +1,8 @@
 package com.stepien.aedes.repository;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import com.stepien.aedes.model.Location;
 
