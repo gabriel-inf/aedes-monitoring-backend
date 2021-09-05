@@ -16,7 +16,7 @@ public interface LocationRepository extends CrudRepository<Location, String>{
     String CHUNKS_PER_LOCATION_ID = 
         """  
             select 
-                * 
+                count(*) 
             from 
                 locations l inner join
                 chunks_intersects ci on (ci.intersection = l.code) inner join
