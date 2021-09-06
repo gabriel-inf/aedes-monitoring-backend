@@ -42,7 +42,7 @@ public interface LocationRepository extends CrudRepository<Location, String>{
     String PREDICTIONS_PER_LOCATION_AND_PERIOD =
     """ 
         select 
-            sum(p.value) 
+            COALESCE(sum(p.value))
         from 
             locations l inner join
             chunks_intersects ci on (ci.intersection = l.code) inner join

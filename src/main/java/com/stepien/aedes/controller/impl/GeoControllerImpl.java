@@ -118,7 +118,13 @@ public class GeoControllerImpl {
         Date formatedStartDate =  dateFormat.parse(startDate);
         Date formatedEndDate = getFormatedEndDate(endDate);
 
-        return locationRepository.getPredictionsByLocationIdAndPeriod(locationId, formatedStartDate, formatedEndDate);
+        Integer result = locationRepository.getPredictionsByLocationIdAndPeriod(locationId, formatedStartDate, formatedEndDate);
+        if (result == null) {
+            result = 0;
+        }
+
+        return result;
+
     }
 
     @GetMapping(value = "getNumberOfChunksWithIdentificationsForecastByLocationIdBetweenPeriod")
