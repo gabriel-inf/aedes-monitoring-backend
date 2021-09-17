@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.stepien.aedes.dtos.ChunkDTO;
+import com.stepien.aedes.dtos.ChunksStatisticsDTO;
+import com.stepien.aedes.dtos.GenericInfoDTO;
 import com.stepien.aedes.model.Chunks;
 import com.stepien.aedes.model.Location;
 import com.stepien.aedes.repository.ChunkRepository;
@@ -141,7 +143,7 @@ public class GeoControllerImpl {
     }
 
     @GetMapping(value = "getLocationChunksStatistics")
-    public Integer getLocationChunksStatistics(
+    public ChunksStatisticsDTO getLocationChunksStatistics(
         @RequestParam Integer locationId,
         @RequestParam String startDate,
         @RequestParam String endDate
@@ -150,7 +152,14 @@ public class GeoControllerImpl {
         Date formatedStartDate =  dateFormat.parse(startDate);
         Date formatedEndDate = getFormatedEndDate(endDate);
 
-        return locationRepository.getNumberOfChunksWithIdentificationsForecastByLocationIdBetweenPeriod(locationId, formatedStartDate, formatedEndDate);
+        List<GenericInfoDTO> history = locationRepository.getLocationChunkIdentifications(locationId, formatedStartDate, formatedEndDate);
+        List<GenericInfoDTO> predictions = locationRepository.getLocationChunksPredictionsBetween(locationId, formatedStartDate, formatedEndDate);
+        
+        ChunksStatisticsDTO chunksStatisticsDTO = new ChunksStatisticsDTO();
+        chunksStatisticsDTO.setHistory(history);
+        chunksStatisticsDTO.setPredictions(predictions);
+
+        return chunksStatisticsDTO;
     }
 
 

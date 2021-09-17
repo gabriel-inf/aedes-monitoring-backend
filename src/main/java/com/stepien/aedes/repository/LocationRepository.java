@@ -3,7 +3,9 @@ package com.stepien.aedes.repository;
 
 
 import java.util.Date;
+import java.util.List;
 
+import com.stepien.aedes.dtos.GenericInfoDTO;
 import com.stepien.aedes.model.Location;
 
 import org.springframework.data.jpa.repository.Query;
@@ -77,8 +79,8 @@ public interface LocationRepository extends CrudRepository<Location, String>{
     String GET_LOCATION_CHUNKS_IDENTIFICATIONS =
         """ 
         select
-            count(*),
-            i.chunk_id,
+            count(*) \"value\",
+            i.chunk_id \"id\",
             date_trunc('day', i.\"time\") \"day\"
         from 
             locations l inner join
@@ -96,8 +98,8 @@ public interface LocationRepository extends CrudRepository<Location, String>{
     String GET_LOCATION_CHUNKS_PREDICTIONS_BETWEEN =
         """ 
         select
-            count(*),
-            p.chunk_id,
+            count(*) \"value\",
+            p.chunk_id \"id\",
             date_trunc('day', p.\"date\") \"day\"
         from 
             locations l inner join
@@ -137,14 +139,14 @@ public interface LocationRepository extends CrudRepository<Location, String>{
     );
 
     @Query(value = GET_LOCATION_CHUNKS_IDENTIFICATIONS, nativeQuery = true)
-    Integer getLocationChunkIdentifications(
+    List<GenericInfoDTO> getLocationChunkIdentifications(
         @Param("locationCode") Integer locationCode,
         @Param("startDate") Date startDate,
         @Param("endDate") Date endDate
     );
 
     @Query(value = GET_LOCATION_CHUNKS_PREDICTIONS_BETWEEN, nativeQuery = true)
-    Integer getLocationChunksPredictionsBetween(
+    List<GenericInfoDTO> getLocationChunksPredictionsBetween(
         @Param("locationCode") Integer locationCode,
         @Param("startDate") Date startDate,
         @Param("endDate") Date endDate
