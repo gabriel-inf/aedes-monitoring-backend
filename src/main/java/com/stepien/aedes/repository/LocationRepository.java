@@ -74,6 +74,43 @@ public interface LocationRepository extends CrudRepository<Location, String>{
         
         """;
 
+    String GET_LOCATION_CHUNKS_IDENTIFICATIONS =
+        """ 
+        select
+            count(*),
+            i.chunk_id,
+            date_trunc('day', i.\"time\") \"day\"
+        from 
+            locations l inner join
+            chunks_intersects ci on (ci.\"intersection\" = l.code) inner join
+            chunks c on (c.id = ci.chunks_id) inner join
+            identifications i on (i.chunk_id = c.id)
+        where
+        	l.code = :locationCode and
+            i.\"time\" between :startDate and :endDate
+        group by
+            i.chunk_id,
+            \"day\"
+        """;
+
+    String GET_LOCATION_CHUNKS_PREDICTIONS_BETWEEN =
+        """ 
+        select
+            count(*),
+            p.chunk_id,
+            date_trunc('day', p.\"date\") \"day\"
+        from 
+            locations l inner join
+            chunks_intersects ci on (ci.\"intersection\" = l.code) inner join
+            chunks c on (c.id = ci.chunks_id) inner join
+            prediction p on (p.chunk_id = c.id)
+        where
+            l.code = :locationCode and
+            p.\"date\" between :startDate and :endDate
+        group by
+            p.chunk_id,
+            \"day\"
+        """;
 
     @Query(value = CHUNKS_PER_LOCATION_ID, nativeQuery = true)
     Integer getNumberOfChunksPerLocationId(Integer locationCode);
@@ -94,6 +131,20 @@ public interface LocationRepository extends CrudRepository<Location, String>{
 
     @Query(value = GET_NUMBER_OF_CHUNKS_WITH_IDENTIFICATIONS_BETWEEN_PERIOD, nativeQuery = true)
     Integer getNumberOfChunksWithIdentificationsForecastByLocationIdBetweenPeriod(
+        @Param("locationCode") Integer locationCode,
+        @Param("startDate") Date startDate,
+        @Param("endDate") Date endDate
+    );
+
+    @Query(value = GET_LOCATION_CHUNKS_IDENTIFICATIONS, nativeQuery = true)
+    Integer getLocationChunkIdentifications(
+        @Param("locationCode") Integer locationCode,
+        @Param("startDate") Date startDate,
+        @Param("endDate") Date endDate
+    );
+
+    @Query(value = GET_LOCATION_CHUNKS_PREDICTIONS_BETWEEN, nativeQuery = true)
+    Integer getLocationChunksPredictionsBetween(
         @Param("locationCode") Integer locationCode,
         @Param("startDate") Date startDate,
         @Param("endDate") Date endDate

@@ -140,6 +140,20 @@ public class GeoControllerImpl {
         return locationRepository.getNumberOfChunksWithIdentificationsForecastByLocationIdBetweenPeriod(locationId, formatedStartDate, formatedEndDate);
     }
 
+    @GetMapping(value = "getLocationChunksStatistics")
+    public Integer getLocationChunksStatistics(
+        @RequestParam Integer locationId,
+        @RequestParam String startDate,
+        @RequestParam String endDate
+        ) throws ParseException {
+
+        Date formatedStartDate =  dateFormat.parse(startDate);
+        Date formatedEndDate = getFormatedEndDate(endDate);
+
+        return locationRepository.getNumberOfChunksWithIdentificationsForecastByLocationIdBetweenPeriod(locationId, formatedStartDate, formatedEndDate);
+    }
+
+
     private Date getFormatedEndDate(String date) throws ParseException {
         Date formatedEndDate = dateFormat.parse(date);
         formatedEndDate.setHours(23);
