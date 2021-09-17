@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -37,7 +38,10 @@ public class Location {
     @Column(nullable = true)
     private String neighborhood;
     @Column(nullable = true)
-    private String country;    
+    private String country;
+
+    @OneToOne(cascade=CascadeType.PERSIST)
+    private GeoPoint centroid;
 
     // @Column
     // private Double lat;
