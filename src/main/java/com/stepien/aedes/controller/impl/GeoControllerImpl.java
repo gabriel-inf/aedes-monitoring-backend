@@ -145,26 +145,52 @@ public class GeoControllerImpl {
     @GetMapping(value = "getLocationChunksStatistics")
     public ChunksStatisticsDTO getLocationChunksStatistics(
         @RequestParam Integer locationId,
-        @RequestParam String startDate,
-        @RequestParam String endDate
+        @RequestParam String baseDate
         ) throws ParseException {
 
-        Date formatedStartDate =  dateFormat.parse(startDate);
-        Date formatedEndDate = getFormatedEndDate(endDate);
+        Date formattedBaseDate =  dateFormat.parse(baseDate);
+        Date formattedPredictionEndDate = getFormatedEndDate(getEndPredictionDate(formattedBaseDate));
+        Date formattedHistoryStartDate = getStartHistoryDate(formattedBaseDate);
+        Date formattedHistoryEndDate = getFormatedEndDate(formattedBaseDate);
 
-        List<GenericInfoDTO> history = locationRepository.getLocationChunkIdentifications(locationId, formatedStartDate, formatedEndDate);
-        List<GenericInfoDTO> predictions = locationRepository.getLocationChunksPredictionsBetween(locationId, formatedStartDate, formatedEndDate);
+        List<GenericInfoDTO> history = locationRepository.getLocationChunkIdentifications(locationId, formattedHistoryStartDate,formattedHistoryEndDate);
+        List<GenericInfoDTO> predictions = locationRepository.getLocationChunksPredictionsBetween(locationId, formattedBaseDate, formattedPredictionEndDate);
         
         ChunksStatisticsDTO chunksStatisticsDTO = new ChunksStatisticsDTO();
+
         chunksStatisticsDTO.setHistory(history);
         chunksStatisticsDTO.setPredictions(predictions);
 
         return chunksStatisticsDTO;
     }
 
+    /**
+     * Returns a new date with the number of days from the base date
+     * @param baseDate
+     * @return
+     */
+    private Date getEndPredictionDate(Date baseDate) {
+        return new Date(baseDate.getTime() + (1000 * 60 * 60 * 24 * 7));
+    }
+
+    /**
+     * Returns a new date with the number of days before the baseDate
+     */
+    private Date getStartHistoryDate(Date baseDate) {
+        return new Date(baseDate.getTime() - (1000 * 60 * 60 * 24 * 30));
+    }
+
 
     private Date getFormatedEndDate(String date) throws ParseException {
         Date formatedEndDate = dateFormat.parse(date);
+        formatedEndDate.setHours(23);
+        formatedEndDate.setMinutes(59);
+        formatedEndDate.setSeconds(59);
+        return formatedEndDate;
+    }
+
+    private Date getFormatedEndDate(Date date) throws ParseException {
+        Date formatedEndDate = (Date) date.clone();
         formatedEndDate.setHours(23);
         formatedEndDate.setMinutes(59);
         formatedEndDate.setSeconds(59);
