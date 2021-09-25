@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class ChunksStatisticsDTO {
     private List<GenericInfoDTO> predictions;
     private List<GenericInfoDTO> history;
+    private List<ChunksDetails> details;
 }

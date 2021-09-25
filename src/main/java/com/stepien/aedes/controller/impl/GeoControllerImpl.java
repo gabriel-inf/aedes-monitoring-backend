@@ -97,6 +97,11 @@ public class GeoControllerImpl {
         return locationRepository.getNumberOfChunksPerLocationId(locationId);
     }
 
+    @GetMapping(value = "getLocationChunks")
+    public List<String> getLocationChunks(@RequestParam Integer locationId) {
+        return locationRepository.getLocationChunks(locationId);
+    }
+
     @GetMapping(value = "getNumberOfIdentificationsPerLocationCodeAndPeriod")
     public Integer getNumberOfIdentificationsPerLocationCodeAndPeriod(
         @RequestParam Integer locationId,
@@ -160,7 +165,6 @@ public class GeoControllerImpl {
 
         chunksStatisticsDTO.setHistory(history);
         chunksStatisticsDTO.setPredictions(predictions);
-
         return chunksStatisticsDTO;
     }
 

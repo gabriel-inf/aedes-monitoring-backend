@@ -27,6 +27,18 @@ public interface LocationRepository extends CrudRepository<Location, String>{
                 l.code = :locationCode
         """;
 
+    String LOCATION_CHUNKS = 
+    """  
+        select 
+            c.id 
+        from 
+            locations l inner join
+            chunks_intersects ci on (ci.intersection = l.code) inner join
+            chunks c on (c.id = ci.chunks_id)
+        where
+            l.code = :locationCode
+    """;
+
     String IDENTIFICATIONS_PER_LOCATION_AND_PERIOD = 
         """ 
             select 
@@ -116,6 +128,9 @@ public interface LocationRepository extends CrudRepository<Location, String>{
 
     @Query(value = CHUNKS_PER_LOCATION_ID, nativeQuery = true)
     Integer getNumberOfChunksPerLocationId(Integer locationCode);
+
+    @Query(value = LOCATION_CHUNKS, nativeQuery = true)
+    List<String> getLocationChunks(Integer locationCode);
 
     @Query(value = IDENTIFICATIONS_PER_LOCATION_AND_PERIOD, nativeQuery = true)
     Integer getNumberOfIdentificationsPerLocationCodeAndPeriod(
