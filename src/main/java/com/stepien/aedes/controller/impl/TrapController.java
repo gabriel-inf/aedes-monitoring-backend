@@ -46,8 +46,8 @@ public class TrapController {
 
     @PostMapping(value = "/identification")
     public void addTrapIdentifications(@RequestBody TrapIdentificationsDTO trapIdentifications) {
-        System.out.println("this is a trap: " + trapIdentifications.getTrapId());
-        identificationService.addTrapIdentifications(trapIdentifications.getTrapId(), trapIdentifications.getNumberOfIdentifications());
+        System.out.println("this is a trap: " + trapIdentifications.getTrapName());
+        identificationService.addTrapIdentifications(trapIdentifications.getTrapName(), trapIdentifications.getNumberOfIdentifications());
     }
 
 

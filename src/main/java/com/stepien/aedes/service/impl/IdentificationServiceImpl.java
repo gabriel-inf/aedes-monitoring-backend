@@ -21,6 +21,7 @@ import com.stepien.aedes.service.IdentificationService;
 import com.stepien.aedes.service.LocalizationService;
 import com.stepien.aedes.vo.GridPosition;
 
+import org.joda.time.DateTimeComparator;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -105,9 +106,9 @@ public class IdentificationServiceImpl implements IdentificationService{
     }
 
     @Override
-    public void addTrapIdentifications(String trapId, Integer numberOfIdentifications) {
+    public void addTrapIdentifications(String trapName, Integer numberOfIdentifications) {
         Trap trap = trapRepository
-            .findById(trapId)
+            .findByName(trapName)
             .orElseThrow(() -> new IllegalArgumentException("Trap not found"));
         Date today = getToday();
         Date trapLastFeed = getTrapLastFeedDate(trap);
@@ -148,9 +149,9 @@ public class IdentificationServiceImpl implements IdentificationService{
         LocalDate start = convertToLocalDateViaInstant(startDate);
         LocalDate end = convertToLocalDateViaInstant(endDate);
         List<Date> totalDates = new ArrayList<>();
+        DateTimeComparator comparator = DateTimeComparator.getDateOnlyInstance();
 
-        start = start.plusDays(1);
-        while (!start.isAfter(end)) {
+        while (comparator.compare(convertToDateViaSqlDate(start), convertToDateViaSqlDate(end)) <= 0) {
             totalDates.add(convertToDateViaSqlDate(start));
             start = start.plusDays(1);
         }

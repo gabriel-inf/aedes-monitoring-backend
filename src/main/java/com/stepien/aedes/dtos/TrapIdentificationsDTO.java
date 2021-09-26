@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class TrapIdentificationsDTO {
-    private String trapId;
+    private String trapName;
     private Integer numberOfIdentifications;
 }
