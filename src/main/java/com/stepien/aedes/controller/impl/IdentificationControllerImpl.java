@@ -48,13 +48,8 @@ public class IdentificationControllerImpl implements IdentificationController {
         Identification identification = new Identification(newIdentification);
         
         // get the chunk instead of the grid position
-        GeoPoint identificationPoint = new GeoPoint(newIdentification.getLat(), newIdentification.getLng());
-        GridPosition gridPosition = localizationService.getGridPosition(identificationPoint);
-        Chunks chunk = localizationService.getChunkPosition(identificationPoint);
-        if (gridPosition != null) {
-            identification.setGridLine(gridPosition.getGridLine());
-            identification.setGridColumn(gridPosition.getGridColumn());
-            identification.setChunk(chunk);
+        identificationService.populateIdentificationInfo(identification);
+        if (identification.getChunk() != null) {
             return (Identification) getIdentificationRepository().save(identification);
         }
         return null;

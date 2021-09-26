@@ -13,4 +13,6 @@ public interface IdentificationService {
     List<Identification> getChunkIdentificationsBetween(Integer gridLine, Integer gridColumn, Date startDate, Date endDate);
     List<IdentificationsPerLocationDto> getNumberOfIdentificationPerLocationBetween(Date startDate, Date endDate);
     List<IdentificationDayCountDTO> getIdentificationDayCounts(Date startDate, Date endDate);
+    void addTrapIdentifications(String trapId, Integer numberOfIdentifications);
+    void populateIdentificationInfo(Identification identification);
 }
