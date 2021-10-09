@@ -1,0 +1,21 @@
+{
+  "name": "aedes-monitoring-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./mvnw test",
+    "local-backend": "./mvnw spring-boot:run -Dspring-boot.run.profiles=default",
+    "deploy-cf": "./mvnw clean package -Dspring-boot.run.profiles=cloud && cf push aedes-monitor-backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabriel-inf/aedes-monitoring-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabriel-inf/aedes-monitoring-backend/issues"
+  },
+  "homepage": "https://github.com/gabriel-inf/aedes-monitoring-backend#readme"
+}
