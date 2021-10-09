@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -53,6 +55,21 @@ public class IdentificationControllerImpl implements IdentificationController {
             return (Identification) getIdentificationRepository().save(identification);
         }
         return null;
+    }
+
+    @Override
+    @PostMapping("/batch")
+    public void addIdentifications(@RequestBody List<IdentificationDTO> identifications) {
+        List<Identification> identificationsToPersist = new ArrayList<>();
+        for (IdentificationDTO newIdentification : identifications) {
+            Identification identification = new Identification(newIdentification);
+            // get the chunk instead of the grid position
+            identificationService.populateIdentificationInfo(identification);
+            if (identification.getChunk() != null) {
+                identificationsToPersist.add(identification);
+            }
+        }
+        getIdentificationRepository().saveAll(identificationsToPersist);
     }
 
     @Override

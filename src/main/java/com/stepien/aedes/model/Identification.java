@@ -56,7 +56,12 @@ public class Identification {
         this.lat = identificationDTO.getLat();
         this.lng = identificationDTO.getLng();
         this.locationId = "TBD";
-        this.time = new Date();
+        if (identificationDTO.getTime() == null) {
+            this.time = new Date();
+        } else {
+            this.time = identificationDTO.getTime();
+        }
+        
     }
 
     public void setChunk(Chunks chunk) {
