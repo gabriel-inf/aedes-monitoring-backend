@@ -1,0 +1,47 @@
+# server.port=8181
+
+# spring.jpa.hibernate.ddl-auto=update
+# spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+# spring.datasource.username=exam
+# spring.datasource.password=example
+
+
+
+spring:
+
+    # datasource:
+    #     type: com.zaxxer.hikari.HikariDataSource
+    #     url: jdbc:postgres://590cd08a269d:7cb52c188c0f@postgres-f353606d-f778-4672-a51e-309acd1c5348.cqryblsdrbcs.us-east-1.rds.amazonaws.com:2227/GZwacnyGdgSZ?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+    #     # driver-class-name: org.h2.Driver
+    #     # username: username
+    #     # password: password
+    #     hikari:
+    #         idle-timeout: 10000 
+
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+        hibernate:
+            ddl-auto: update
+            naming:
+                implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+        properties:
+            hibernate:
+                format_sql: true
+    jackson:
+        time-zone: America/Sao_Paulo
+      
+    
+
+# spring.datasource.url = jdbc:postgres://590cd08a269d:7cb52c188c0f@postgres-f353606d-f778-4672-a51e-309acd1c5348.cqryblsdrbcs.us-east-1.rds.amazonaws.com:2227/GZwacnyGdgSZ?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+# spring.datasource.username = postgres
+# spring.datasource.password = user
+
+
+# spring.jpa.database-platform = org.hibernate.dialect.PostgreSQL94Dialect
+# # spring.jpa.show-sql = true
+# spring.jpa.hibernate.ddl-auto = update
+# spring.jpa.hibernate.naming.implicit-strategy = org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+# spring.jpa.properties.hibernate.format_sql=true
+# spring.jackson.time-zone= America/Sao_Paulo
+
+

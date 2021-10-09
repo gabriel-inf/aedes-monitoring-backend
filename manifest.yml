@@ -1,0 +1,11 @@
+---
+applications:
+  - name: aedes-monitor-backend
+    path: target/aedes-0.0.1-SNAPSHOT.jar
+    routes:
+    - route: backend-aedes.cfapps.io
+    services:
+      - postgres
+...
+  env:
+    JBP_CONFIG_JAVA_OPTS: '{jre: { version: 15.+ }}'
