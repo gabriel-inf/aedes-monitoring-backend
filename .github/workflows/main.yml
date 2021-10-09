@@ -29,7 +29,6 @@ jobs:
         run: ./mvnw clean package
 
       # Runs a set of commands using the runners shell
-      - name: Deploy to CF
       - uses: citizen-of-planet-earth/cf-cli-action@master
         with:
           cf_api: ${{ secrets.CF_API_ENDPOINT }}
