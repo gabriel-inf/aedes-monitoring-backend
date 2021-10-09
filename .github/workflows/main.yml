@@ -27,11 +27,11 @@ jobs:
       - name: Set Java
         uses: actions/setup-java@v1
         with:
-          java-version: 16
+          java-version: 15
 
       # Runs a single command using the runners shell
       - name: Build application
-        run: ./mvnw clean package
+        run: npm run deploy-cf
 
       # Runs a set of commands using the runners shell
       - uses: citizen-of-planet-earth/cf-cli-action@master
