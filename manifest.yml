@@ -4,10 +4,6 @@ applications:
     path: target/aedes-0.0.1-SNAPSHOT.jar
     services:
       - postgres
-  - name: CF CLI Action
-    uses: citizen-of-planet-earth/cf-cli-action@v2
-
 ...
   env:
     JBP_CONFIG_JAVA_OPTS: '{jre: { version: 15.+ }}'
-
