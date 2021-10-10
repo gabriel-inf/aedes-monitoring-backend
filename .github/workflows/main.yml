@@ -31,7 +31,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build application
-        run: ./mvnw clean package -Dspring-boot.run.profiles=cloud
+        run: ./mvnw clean package -Dspring-boot.run.profiles=cloud -DskipTests
 
       # Runs a set of commands using the runners shell
       - uses: citizen-of-planet-earth/cf-cli-action@master
