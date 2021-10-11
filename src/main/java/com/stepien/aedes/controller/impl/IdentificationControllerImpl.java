@@ -13,6 +13,8 @@ import com.stepien.aedes.service.IdentificationService;
 import com.stepien.aedes.service.LocalizationService;
 import com.stepien.aedes.vo.GridPosition;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -28,6 +30,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/identifications")
 public class IdentificationControllerImpl implements IdentificationController {
+
+    Logger logger = LoggerFactory.getLogger(IdentificationControllerImpl.class);
 
     private static final SimpleDateFormat dateFormat =
             new SimpleDateFormat("yyyy-MM-dd");
@@ -48,12 +52,20 @@ public class IdentificationControllerImpl implements IdentificationController {
     @PostMapping
     public Identification addIdentification(@RequestBody IdentificationDTO newIdentification) {
         Identification identification = new Identification(newIdentification);
-        
+
         // get the chunk instead of the grid position
         identificationService.populateIdentificationInfo(identification);
         if (identification.getChunk() != null) {
+            logger.info("Adding identification. Lat: " 
+                + newIdentification.getLat().toString()
+                + " - lng: " + newIdentification.getLng().toString()
+                + " - time: " + newIdentification.getTime().toString());
             return (Identification) getIdentificationRepository().save(identification);
         }
+        logger.warn("Rejected! identification. Lat: " 
+        + newIdentification.getLat().toString()
+        + " - lng: " + newIdentification.getLng().toString()
+        + " - time: " + newIdentification.getTime().toString());
         return null;
     }
 
@@ -66,7 +78,16 @@ public class IdentificationControllerImpl implements IdentificationController {
             // get the chunk instead of the grid position
             identificationService.populateIdentificationInfo(identification);
             if (identification.getChunk() != null) {
+                logger.info("Adding identification. Lat: " 
+                + newIdentification.getLat().toString()
+                + " - lng: " + newIdentification.getLng().toString()
+                + " - time: " + newIdentification.getTime().toString());
                 identificationsToPersist.add(identification);
+            } else {
+                logger.warn("Rejected! identification. Lat: " 
+                + newIdentification.getLat().toString()
+                + " - lng: " + newIdentification.getLng().toString()
+                + " - time: " + newIdentification.getTime().toString());
             }
         }
         getIdentificationRepository().saveAll(identificationsToPersist);
